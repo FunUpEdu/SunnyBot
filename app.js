@@ -1,6 +1,5 @@
 import { WechatyBuilder } from 'wechaty'
 import { onLogin, onScan ,onMessage} from './onListener.js'
-import { request } from './db.js'
 
 
 async function main () {

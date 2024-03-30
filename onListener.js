@@ -1,11 +1,10 @@
 import qrTerm from 'qrcode-terminal'
-import { request } from './db'
-import { bind, mineData, myBind } from './services';
-let roomList = request('/get_rooms')
-
+import { request } from './db.js'
+import { bind, mineData, myBind,todayData,rank } from './services.js';
+let roomList = await request('get_rooms')
 function isInRoomList(roomName) {
     for (let i = 0; i < roomList.length; i++) {
-        const room = roomList[i];
+        const room = roomList[i].roomName;
         if (room === roomName) {
             return true
         }
@@ -28,11 +27,12 @@ export async function onMessage(msg) {
         const topic = await room.topic()
         if ( isInRoomList(topic)) {
             const text = msg.text()
-            if (msg.type() == bot.Message.Type.Text) {
+            console.log(`收到消息:${text}\n`)
+            if (true) {
                 const text = msg.text()
                 const talker = msg.talker()
                 if (text.startsWith("菜单")) {
-                    room.say("🎈菜单:\n🎈我的绑定\n🎈绑定#学号\n🎈我的数据\n🎈今日数据\n🎈开启定时\n🎈关闭定时\n🎈我的定时\n🎈排行榜")
+                    room.say("🎈菜单:\n🎈我的绑定\n🎈绑定#学号\n🎈我的数据\n🎈今日数据\n🎈排行榜")
                 }
                 if (text.startsWith("我的绑定")) {
                     myBind(msg,room,talker)
@@ -44,16 +44,11 @@ export async function onMessage(msg) {
                     mineData(msg,room,talker)
                 }
                 if (text.startsWith("今日数据")) {
-                    todayData(msg, room)
+                    todayData(msg, room, talker)
                 }
-                // if (text.startsWith("排行榜")) {
-                //     room.say(await generateRank(await room.topic()))
-                // }
-                // if (text.toLowerCase().startsWith("pk")) {
-                //     let atName = text.split('@')[1]
-                //     if (atName == undefined) return
-                //     room.say(await pk(await msg.talker().name(), atName))
-                // }
+                if (text.startsWith("排行榜")) {
+                    rank(msg, room, talker)
+                }
             }
         }
     }
