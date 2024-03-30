@@ -49,6 +49,9 @@ export async function onMessage(msg) {
                 if (text.startsWith("排行榜")) {
                     rank(msg, room, talker)
                 }
+                if (text.startsWith("刷新群组")) {
+                    roomList = await request('get_rooms')
+                }
             }
         }
     }

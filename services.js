@@ -33,9 +33,9 @@ export async function mineData(msg,room,talker) {
             const raw = data.data
             for (let i = 0; i < raw.length; i++){
                 if (i == raw.length) {
-                    result = result + `${raw[i].runnerTime} ${raw[i].runnerMileage} ${raw[i].runnerSpeed} ${raw[i].ok}\n`
-                } else {
                     result = result + `${raw[i].runnerTime} ${raw[i].runnerMileage} ${raw[i].runnerSpeed} ${raw[i].ok}`
+                } else {
+                    result = result + `${raw[i].runnerTime} ${raw[i].runnerMileage} ${raw[i].runnerSpeed} ${raw[i].ok}\n`
                 }
             }
             result += `\n🏃平均速度:${speed}🏃\n📖总次数:${count}📖\n⬆️当前排名:${data.rank}⬆️`
