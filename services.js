@@ -70,3 +70,13 @@ export async function rank(msg, room, talker) {
         room.say(result)
     }
 }
+export async function pk(msg, room, talker) {
+    const name = await msg.talker().name()
+    const targetName = msg.text().split('@')[1]
+    const data = await request('pk', `initName=${name}&targetName=${targetName}`)
+    if (data == null) {
+        room.say("服务器错误", talker)
+    } else {
+        room.say(data.msg,talker)
+    }
+}

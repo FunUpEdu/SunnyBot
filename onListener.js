@@ -1,11 +1,11 @@
 import qrTerm from 'qrcode-terminal'
 import { request } from './db.js'
-import { bind, mineData, myBind,todayData,rank } from './services.js';
+import { bind, mineData, myBind,todayData,rank, pk } from './services.js';
 let roomList = await request('get_rooms')
 function isInRoomList(roomName) {
     for (let i = 0; i < roomList.length; i++) {
         const room = roomList[i].roomName;
-        if (room === roomName) {
+        if (room.includes(roomName) || roomName.includes(room)) {
             return true
         }
     }
@@ -48,6 +48,9 @@ export async function onMessage(msg) {
                 }
                 if (text.startsWith("排行榜")) {
                     rank(msg, room, talker)
+                }
+                if (text.toLowerCase().startsWith("pk")) {
+                    pk(msg, room, talker)
                 }
                 if (text.startsWith("刷新群组")) {
                     roomList = await request('get_rooms')
