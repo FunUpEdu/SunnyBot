@@ -77,6 +77,6 @@ export async function pk(msg, room, talker) {
     if (data == null) {
         room.say("服务器错误", talker)
     } else {
-        room.say(data.msg,talker)
+        room.say('\n'+data.msg,talker)
     }
 }
