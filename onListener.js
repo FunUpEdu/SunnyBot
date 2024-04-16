@@ -1,7 +1,9 @@
 import qrTerm from 'qrcode-terminal'
-import { request } from './db.js'
-import { bind, mineData, myBind,todayData,rank, pk } from './services.js';
+import {request} from './db.js'
+import {bind, mineData, myBind, todayData, rank, pk} from './services.js';
+
 let roomList = await request('get_rooms')
+
 function isInRoomList(roomName) {
     for (let i = 0; i < roomList.length; i++) {
         const room = roomList[i].roomName;
@@ -11,21 +13,24 @@ function isInRoomList(roomName) {
     }
     return false
 }
+
 export async function onScan(qrcode, status) {
-    qrTerm.generate(qrcode, { small: true })
+    qrTerm.generate(qrcode, {small: true})
 }
+
 export async function onLogin(user) {
     console.log(`User ${user} logged in`)
 }
+
 /**
- * 
- * @param {MessageInterface} msg 
+ *
+ * @param {MessageInterface} msg
  */
 export async function onMessage(msg) {
     const room = msg.room()
     if (room) {
         const topic = await room.topic()
-        if ( isInRoomList(topic)) {
+        if (isInRoomList(topic)) {
             const text = msg.text()
             console.log(`收到消息:${text}\n`)
             if (true) {
@@ -35,13 +40,13 @@ export async function onMessage(msg) {
                     room.say("🎈菜单:\n🎈我的绑定\n🎈绑定#学号\n🎈我的数据\n🎈今日数据\n🎈排行榜")
                 }
                 if (text.startsWith("我的绑定")) {
-                    myBind(msg,room,talker)
+                    myBind(msg, room, talker)
                 }
                 if (text.startsWith("绑定")) {
                     bind(msg, room, talker)
                 }
                 if (text.startsWith("我的数据")) {
-                    mineData(msg,room,talker)
+                    mineData(msg, room, talker)
                 }
                 if (text.startsWith("今日数据")) {
                     todayData(msg, room, talker)
