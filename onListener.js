@@ -1,4 +1,5 @@
 import qrTerm from 'qrcode-terminal'
+import * as fs from 'fs'
 import {request} from './db.js'
 import {bind, mineData, myBind, todayData, rank, pk} from './services.js';
 
@@ -15,6 +16,11 @@ function isInRoomList(roomName) {
 }
 
 export async function onScan(qrcode, status) {
+    let login_url = `https://wechaty.js.org/qrcode/${qrcode}`
+    fs.writeFile('qrcode.png', login_url, function (err) { 
+        console.log(err)
+        return
+    })
     qrTerm.generate(qrcode, {small: true})
 }
 
