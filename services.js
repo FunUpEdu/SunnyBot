@@ -33,6 +33,7 @@ export async function mineData(msg, room, talker) {
             const speed = data.averageSpeed
             const count = data.count
             const raw = data.data
+            const am_count = data.am_count
             for (let i = 0; i < raw.length; i++) {
                 if (i === raw.length) {
                     result = result + `${raw[i].runnerTime}${raw[i].runnerPeriod} ${raw[i].runnerMileage} ${raw[i].runnerSpeed}${raw[i].ok}`
@@ -40,7 +41,14 @@ export async function mineData(msg, room, talker) {
                     result = result + `${raw[i].runnerTime}${raw[i].runnerPeriod} ${raw[i].runnerMileage} ${raw[i].runnerSpeed}${raw[i].ok}\n`
                 }
             }
-            result += `\n🏃平均速度:${speed}🏃\n📖总次数:${count}📖\n⬆️当前排名:${data.rank}⬆️`
+            const isQualified = (() => {
+                if (count >= 28 && am_count >= 7) {
+                    return "合格"
+                } else {
+                    return "不合格"
+                }
+            })()
+            result += `\n🏃平均速度:${speed}🏃\n📖总次数:${count}📖\n📖上午次数:${am_count}📖\n🎈是否合格:${isQualified}🎈\n⬆️当前排名:${data.rank}⬆️`
         }
         room.say(result, talker)
     }
